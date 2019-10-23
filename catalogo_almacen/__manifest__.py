@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "mono",
+    'name': "Cátalogo de almacen",
 
     'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
+        Generate an inventory report, print only those products that exist in some of the registered stores""",
 
     'description': """
         Long description of module's purpose

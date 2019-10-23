@@ -25,26 +25,38 @@ class ProductTemplate(models.Model):
 
     @api.one
     def _compute(self):
+        id_stock_gdl = self.env['stock.warehouse'].search([('code','=','GDL')], limit=1)
+        id_stock_cdmx = self.env['stock.warehouse'].search([('code','=','CDMX')], limit=1)
+        id_stock_mer = self.env['stock.warehouse'].search([('code','=','MER')], limit=1)
+
         obj_stock = self.env['stock.quant'].search([('code_product','=',self.default_code)])
         for line in obj_stock:
-            if line.location_id.id == 12:
-                disponible = line.quantity - line.reserved_quantity
-                self.stock_gdl = disponible
-            if line.location_id.id == 19:
-                disponible = line.quantity - line.reserved_quantity
-                self.stock_cdmx = disponible
-            if line.location_id.id == 25:
-                disponible = line.quantity - line.reserved_quantity
-                self.stock_mer = disponible 
+            if id_stock_gdl:
+                if line.location_id.id == id_stock_gdl.lot_stock_id.id:
+                    disponible = line.quantity - line.reserved_quantity
+                    self.stock_gdl = disponible
+            if id_stock_cdmx:
+                if line.location_id.id == id_stock_cdmx.lot_stock_id.id:
+                    disponible = line.quantity - line.reserved_quantity
+                    self.stock_cdmx = disponible
+            if id_stock_mer:
+                if line.location_id.id == id_stock_mer.lot_stock_id.id:
+                    disponible = line.quantity - line.reserved_quantity
+                    self.stock_mer = disponible 
 
         obj_transito = self.env['stock.move.line'].search([('code_product_id','=',self.default_code)])
+        id_vendor = self.env['stock.location'].search([('name','=','Vendors')], limit=1)
         for x in obj_transito:
-            if x.location_id.id == 8:
-                if x.location_dest_id.id == 12:
-                    self.et_co = x.product_uom_qty
-                if x.location_dest_id.id == 19:
-                    self.et_cc = x.product_uom_qty
-                if x.location_dest_id.id == 25:
-                    self.et_cs = x.product_uom_qty
+            if x.location_id.id == id_vendor.id:
+                if id_stock_gdl:
+                    if x.location_dest_id.id == id_stock_gdl.lot_stock_id.id:
+                        self.et_co = x.product_uom_qty
+                if id_stock_cdmx:
+                    if x.location_dest_id.id == id_stock_cdmx.lot_stock_id.id:
+                        self.et_cc = x.product_uom_qty
+                if id_stock_mer:
+                    if x.location_dest_id.id == id_stock_mer.lot_stock_id.id:
+                        self.et_cs = x.product_uom_qty
+
 
     

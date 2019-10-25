@@ -83,6 +83,6 @@
     <!--FIN DE LA VISTA CATALOGO DEL AMACEN-->
 
     <!--AGREGAMOS UN MENUITEM QUE INVOQUE A LA ACCION QUE GENERA LA VISTA TREE DEL PRODUCT TEMPLATE-->
-    <menuitem id="action_catalogo_almacen_ventas" name="Cátalogo de almacén" parent="sale.menu_sale_report" sequence="100" action="action_catalogo_almacen" />
+    <menuitem id="action_catalogo_almacen_ventas" name="Cátalogo de almacén" parent="sale.sale_menu_root" sequence="4" action="action_catalogo_almacen" />
   </data>
 </odoo>

@@ -66,7 +66,7 @@
       <field name="res_model">product.template</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
-      <field name="domain">[('type','=','product')]</field>
+      <field name="domain">[('type','=','product'),('sale_ok','=',True)]</field>
       <field name="limit">1000</field>
       <field eval="False" name="view_id"/>
       <field name="search_view_id" ref="product.product_template_tree_view"/>

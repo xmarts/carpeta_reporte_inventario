@@ -8,12 +8,14 @@
       <field name="arch" type="xml">
         <xpath expr="//field[@name='barcode']" position="after">
           <br/>
+          <field name="product_installation_type_id"/>
           <field name="stock_gdl"/>
           <field name="et_co"/>
           <field name="stock_cdmx"/>
           <field name="et_cc"/>
           <field name="stock_mer"/>
           <field name="et_cs"/>
+          
         </xpath>
       </field>
     </record>

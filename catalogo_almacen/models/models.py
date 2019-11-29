@@ -13,6 +13,11 @@ class StockMoveLine(models.Model):
 
     code_product_id = fields.Char(related="product_id.default_code", string="Código del producto")
 
+class ProductInstallationType(models.Model):
+    _name = 'product.installation.type'
+
+    name = fields.Char(string="Tipo Instalacion")
+
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
@@ -22,6 +27,7 @@ class ProductTemplate(models.Model):
     et_cc = fields.Integer(string="En tránsito CC", compute="_compute")
     stock_mer = fields.Integer(string="Cedis sur", compute="_compute")
     et_cs = fields.Integer(string="En tránsito CS", compute="_compute")
+    product_installation_type_id = fields.Many2one('product.installation.type', string='Tipo de instalacion')
 
     @api.one
     def _compute(self):

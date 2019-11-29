@@ -1,2 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_mono_mono,mono.mono,model_mono_mono,,1,0,0,0
+access_product_installation_type,product.installation.type,model_product_installation_type,,1,1,1,1

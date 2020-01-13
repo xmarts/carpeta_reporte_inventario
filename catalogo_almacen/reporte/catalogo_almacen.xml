@@ -13,9 +13,9 @@
 			                    <th>Cedis Occidente</th>
 			                    <th>Cedis Centro</th>
 			                    <th>Cedis Sur</th>
-                                <th>ET CO</th>
-                                <th>ET CC</th>
-                                <th>ET CS</th>
+                                <th>Tránsito CO</th>
+                                <th>Tránsito CC</th>
+                                <th>Tránsito CS</th>
 			                  </tr>
 			                </thead>
 			                <tbody class="invoice_tbody">

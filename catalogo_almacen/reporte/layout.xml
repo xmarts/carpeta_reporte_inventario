@@ -1,7 +1,7 @@
 <odoo> 
       <data>
             <report
-                string="Catálago de almacén"
+                string="Stock"
                 id="action_imp_report"
                 model="product.template"
                 name="catalogo_almacen.catalogo_almacen"

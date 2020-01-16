@@ -4,7 +4,7 @@
 			<t t-call="web.external_layout">
 				<t>
 					<div class="page">
-                        <table class="table table-condensed" >
+                        <table class="table table-condensed">
 			                <thead>
 			                  <tr>
                                 <th>Imagen</th>
@@ -19,7 +19,7 @@
 			                  </tr>
 			                </thead>
 			                <tbody class="invoice_tbody">
-								<t t-foreach="docs" t-as="o">
+                                <t t-foreach="docs" t-as="o">
                                     <t t-if="o.stock_gdl or o.et_co or o.stock_cdmx or o.et_cc or o.stock_mer or o.et_cs">
                                         <tr>
                                             <td>

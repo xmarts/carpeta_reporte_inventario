@@ -50,7 +50,7 @@
       <field name="model">product.template</field>
       <field name="type">tree</field>
       <field name="arch" type="xml">
-        <tree string="Stock" default_order='default_code'>
+        <tree string="Stock" default_order='categ_id'>
           <field name="default_code"/>
           <field name="name"/>
           <field name="stock_gdl"/>

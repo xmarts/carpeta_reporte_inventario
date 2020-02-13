@@ -13,9 +13,9 @@
 			                    <th>Cedis Occidente</th>
 			                    <th>Cedis Centro</th>
 			                    <th>Cedis Sur</th>
-                                <th>Tránsito CO</th>
-                                <th>Tránsito CC</th>
-                                <th>Tránsito CS</th>
+                                <th>Tránsito COcci</th>
+                                <th>Tránsito CCentro</th>
+                                <th>Tránsito CSur</th>
 			                  </tr>
 			                </thead>
 			                <tbody class="invoice_tbody">
@@ -31,6 +31,7 @@
                                             <td>
                                                 <span t-field="o.name"/>
                                             </td>
+                                            
                                             <td>
                                                 <span t-field ="o.stock_gdl"/>
                                             </td>

@@ -91,7 +91,7 @@ class ProductTemplate(models.Model):
                 p3=self.env['stock.quant'].search([('product_id','=',merproduct.id),('location_id','=',mery.id)])
                 if p3:
                     mercount+=p3.quantity
-            self.stock_mer=mercount-p3.reseved_quantity
+            self.stock_mer=mercount-p3.reserved_quantity
 
         id_stockw_gdl = self.env['stock.warehouse'].search([('code','=','GDL')],limit=1)
         id_stockw_cdmx = self.env['stock.warehouse'].search([('code','=','CDMX')], limit=1)

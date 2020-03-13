@@ -50,9 +50,9 @@ class ProductTemplate(models.Model):
                 p1 = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',y.id)])
                 if p1:
                     #print(p1.quantity)
-                    cont += p1.quantity-p1.reserved_quantity
+                    cont += p1.quantity
         #print(product.name,cont)
-        self.stock_gdl = cont
+        self.stock_gdl = cont-p1.reserved_quantity
 
         id_stock_cdmx = self.env['stock.location'].search([('name','=','CDMX')], limit=1)
         cdmxproduct=self.env['product.product'].search([('product_tmpl_id','=', self.id)])
@@ -70,8 +70,8 @@ class ProductTemplate(models.Model):
             for cdy in cdmx.child_ids:
                 p2=self.env['stock.quant'].search([('product_id','=',cdmxproduct.id),('location_id','=',cdy.id)])
                 if p2:
-                    cdmxcount +=p2.quantity-p2.reserved_quantity
-        self.stock_cdmx = cdmxcount
+                    cdmxcount +=p2.quantity
+        self.stock_cdmx = cdmxcount-p2.reserved_quantity
         #print(cdmxproduct.name, cdmxcount)
 
         id_stock_mer = self.env['stock.location'].search([('name','=','MER')], limit=1)
@@ -90,8 +90,8 @@ class ProductTemplate(models.Model):
             for mery in merx.child_ids:
                 p3=self.env['stock.quant'].search([('product_id','=',merproduct.id),('location_id','=',mery.id)])
                 if p3:
-                    mercount+=p3.quantity-p3.reserved_quantity
-            self.stock_mer=mercount
+                    mercount+=p3.quantity
+            self.stock_mer=mercount-p3.reseved_quantity
 
         id_stockw_gdl = self.env['stock.warehouse'].search([('code','=','GDL')],limit=1)
         id_stockw_cdmx = self.env['stock.warehouse'].search([('code','=','CDMX')], limit=1)

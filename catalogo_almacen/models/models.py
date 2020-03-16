@@ -34,6 +34,22 @@ class ProductTemplate(models.Model):
         id_stock_gdl = self.env['stock.location'].search([('name','=','GDL')],limit=1)
         product = self.env['product.product'].search([('product_tmpl_id','=',self.id)])
         cont = 0
+        socc = 0
+        scen = 0
+        ssur = 0
+        salidas = self.env['stock.picking'].search([('state','in',['confirmed','assigned']),('picking_type_code','=','outgoing')])
+        sss = self.env['stock.move'].search([('product_id','=',product.id),('picking_id','in',salidas.ids)])
+        for x in sss:
+            for y in x.tiempo_entrega_tabla:
+                if y.cedis_selection == 'occidente':
+                    socc += x.product_qty
+                    print("TEST::: ",x.name,x.product_qty)
+                if y.cedis_selection == 'centro':
+                    scen += x.product_qty
+                    print("TEST::: ",x.name,x.product_qty)
+                if y.cedis_selection == 'sur':
+                    ssur += x.product_qty
+                    print("TEST::: ",x.name,x.product_qty)
         
         #print(product.name,product.default_code)
         p1 = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',id_stock_gdl.id)])
@@ -104,13 +120,13 @@ class ProductTemplate(models.Model):
             if x.location_id.id == id_vendor.id:
                 if id_stockw_gdl:
                     if x.location_dest_id.id == id_stockw_gdl.lot_stock_id.id:
-                        self.et_co = x.product_uom_qty
+                        self.et_co = x.product_uom_qty - socc
                 if id_stockw_cdmx:
                     if x.location_dest_id.id == id_stockw_cdmx.lot_stock_id.id:
-                        self.et_cc = x.product_uom_qty
+                        self.et_cc = x.product_uom_qty - scen
                 if id_stockw_mer:
                     if x.location_dest_id.id == id_stockw_mer.lot_stock_id.id:
-                        self.et_cs = x.product_uom_qty
+                        self.et_cs = x.product_uom_qty - ssur
 
 
     

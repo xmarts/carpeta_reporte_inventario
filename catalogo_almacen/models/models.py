@@ -37,8 +37,13 @@ class ProductTemplate(models.Model):
         socc = 0
         scen = 0
         ssur = 0
-        salidas = self.env['stock.picking'].search([('state','in',['confirmed','assigned']),('picking_type_code','=','outgoing')])
+        rsocc = 0
+        rscen = 0
+        rssur = 0
+        salidas = self.env['stock.picking'].search([('state','in',['confirmed']),('picking_type_code','=','outgoing')])
+        reservas = self.env['stock.picking'].search([('state','in',['assigned']),('picking_type_code','=','outgoing')])
         sss = self.env['stock.move'].search([('product_id','=',product.id),('picking_id','in',salidas.ids)])
+        rrr = self.env['stock.move'].search([('product_id','=',product.id),('picking_id','in',reservas.ids)])
         for x in sss:
             for y in x.tiempo_entrega_tabla:
                 if y.cedis_selection == 'occidente':
@@ -50,6 +55,18 @@ class ProductTemplate(models.Model):
                 if y.cedis_selection == 'sur':
                     ssur += x.product_qty
                     print("TEST::: ",x.name,x.product_qty)
+
+        for x in rrr:
+            for y in x.tiempo_entrega_tabla:
+                if y.cedis_selection == 'occidente':
+                    rsocc += x.product_qty
+                    print("R TEST::: ",x.name,x.product_qty)
+                if y.cedis_selection == 'centro':
+                    rscen += x.product_qty
+                    print("R TEST::: ",x.name,x.product_qty)
+                if y.cedis_selection == 'sur':
+                    rssur += x.product_qty
+                    print("R TEST::: ",x.name,x.product_qty)
         
         #print(product.name,product.default_code)
         p1 = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',id_stock_gdl.id)])
@@ -68,7 +85,7 @@ class ProductTemplate(models.Model):
                     #print(p1.quantity)
                     cont += p1.quantity
         #print(product.name,cont)
-        self.stock_gdl = cont-p1.reserved_quantity
+        self.stock_gdl = cont-p1.reserved_quantity-rsocc
 
         id_stock_cdmx = self.env['stock.location'].search([('name','=','CDMX')], limit=1)
         cdmxproduct=self.env['product.product'].search([('product_tmpl_id','=', self.id)])
@@ -87,7 +104,7 @@ class ProductTemplate(models.Model):
                 p2=self.env['stock.quant'].search([('product_id','=',cdmxproduct.id),('location_id','=',cdy.id)])
                 if p2:
                     cdmxcount +=p2.quantity
-        self.stock_cdmx = cdmxcount-p2.reserved_quantity
+        self.stock_cdmx = cdmxcount-p2.reserved_quantity-rscen
         #print(cdmxproduct.name, cdmxcount)
 
         id_stock_mer = self.env['stock.location'].search([('name','=','MER')], limit=1)
@@ -107,7 +124,7 @@ class ProductTemplate(models.Model):
                 p3=self.env['stock.quant'].search([('product_id','=',merproduct.id),('location_id','=',mery.id)])
                 if p3:
                     mercount+=p3.quantity
-            self.stock_mer=mercount-p3.reserved_quantity
+        self.stock_mer=mercount-p3.reserved_quantity-rssur
 
         id_stockw_gdl = self.env['stock.warehouse'].search([('code','=','GDL')],limit=1)
         id_stockw_cdmx = self.env['stock.warehouse'].search([('code','=','CDMX')], limit=1)

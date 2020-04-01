@@ -40,7 +40,7 @@ class ProductTemplate(models.Model):
         rsocc = 0
         rscen = 0
         rssur = 0
-        salidas = self.env['stock.picking'].search([('state','in',['confirmed']),('picking_type_code','=','outgoing')])
+        salidas = self.env['stock.picking'].search([('state','in',['confirmed']),('picking_type_code','=','outgoing'),('estado_reserva','in',['Anticipo','Autorizado_sin_pago','Pago_total_sin_documentos'])])
         reservas = self.env['stock.picking'].search([('state','in',['assigned']),('picking_type_code','=','outgoing')])
         sss = self.env['stock.move'].search([('product_id','=',product.id),('picking_id','in',salidas.ids)])
         rrr = self.env['stock.move'].search([('product_id','=',product.id),('picking_id','in',reservas.ids)])

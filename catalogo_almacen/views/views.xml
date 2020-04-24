@@ -20,6 +20,17 @@
       </field>
     </record>
 
+    <!-- <record id="add_field_stock_location" model="ir.ui.view">
+      <field name="name">add_field_stock_location</field>
+      <field name="model">stock.location</field>
+      <field name="inherit_id" ref="stock.view_location_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='usage']" position="after">
+          <field name="cedis_selection"/>
+        </xpath>
+      </field>
+    </record> -->
+
     <!--AGREGAMOS UN CAMPO AL MODELO DE STOCK.QUANT PARA MOSTRAR LA REFERNCIA INTERNA DEL PRODUCTO-->
     <record id="add_field_stock_quant" model="ir.ui.view">
       <field name="name">add.field.stock.quant</field>
@@ -62,6 +73,23 @@
         </tree>
       </field>
     </record>
+   <!--  <record id="view_search_catalogo_almacen" model="ir.ui.view">
+      <field name="name">view_search_catalogo_almacen</field>
+      <field name="model">product.template</field>
+      <field name="type">search</field>
+      <field name="arch" type="xml">
+        <search >
+          <field name="default_code"/>
+          <field name="name"/>
+          <field name="stock_gdl"/>
+          <field name="et_co"/>
+          <field name="stock_cdmx"/>
+          <field name="et_cc"/>
+          <field name="stock_mer"/>
+          <field name="et_cs"/>
+        </search>
+      </field>
+    </record> -->
 
     <record id="action_catalogo_almacen" model="ir.actions.act_window">
       <field name="name">Stock</field>

@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+import logging
+
+_logger = logging.getLogger(__name__)
 
 # class StockLocation(models.Model):
 #     _inherit = "stock.location"
@@ -40,6 +43,8 @@ class ProductTemplate(models.Model):
         id_stock_mer = self.env['stock.location'].search([('name','=','MER')],limit=1)
 
         product = self.env['product.product'].search([('product_tmpl_id','=',self.id)])
+        _logger.info('###########')
+        _loger.info(product)
 
         product_sq_gdl = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',id_stock_gdl.id)])
         for sq_gdl in product_sq_gdl:

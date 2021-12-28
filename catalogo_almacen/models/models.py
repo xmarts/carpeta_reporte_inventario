@@ -42,17 +42,18 @@ class ProductTemplate(models.Model):
         product = self.env['product.product'].search([('product_tmpl_id','=',self.id)])
 
         product_sq_gdl = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',id_stock_gdl.id)])
-        if product_sq_gdl:
-            self.stock_gdl += product_sq_gdl.quantity
+        for sq_gdl in product_sq_gdl:
+            if sq_gdl:
+                self.stock_gdl += sq_gdl.quantity
 
-        for x in id_stock_gdl.child_ids:
-            product_sq_gdl = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',x.id)])
-            if product_sq_gdl:
-                self.stock_gdl += product_sq_gdl.quantity
-            for y in x.child_ids:
-                product_sq_gdl = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',y.id)])
-                if product_sq_gdl:
-                    self.stock_gdl += product_sq_gdl.quantity
+            for x in id_stock_gdl.child_ids:
+                sq_gdl = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',x.id)])
+                if sq_gdl:
+                    self.stock_gdl += sq_gdl.quantity
+                for y in x.child_ids:
+                    sq_gdl = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',y.id)])
+                    if sq_gdl:
+                        self.stock_gdl += sq_gdl.quantity
 
         product_sq_cdmx = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',id_stock_cdmx.id)])
         if product_sq_cdmx:

@@ -44,7 +44,7 @@ class ProductTemplate(models.Model):
 
         product = self.env['product.product'].search([('product_tmpl_id','=',self.id)])
         _logger.info('###########')
-        _loger.info(product)
+        _logger.info(product)
 
         product_sq_gdl = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',id_stock_gdl.id)])
         for sq_gdl in product_sq_gdl:

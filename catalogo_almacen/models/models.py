@@ -44,10 +44,7 @@ class ProductTemplate(models.Model):
 
         products = self.env['product.product'].search([('product_tmpl_id','=',self.id)])
         for product in products:
-        _logger.info('###########')
-        _logger.info(product)
 
-        #for sq_gdl in product_sq_gdl:
             sq_gdl = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',id_stock_gdl.id)])
             if sq_gdl:
                 self.stock_gdl += sq_gdl.quantity
@@ -87,8 +84,8 @@ class ProductTemplate(models.Model):
                     if product_sq_mer:
                         self.stock_mer += product_sq_mer.quantity
 
-        product_reserved = self.env['stock.picking'].search([('state','in',['assigned']),('picking_type_code','=','outgoing')])
-        product_reserved_lines = self.env['stock.move'].search([('product_id','=',product.id),('picking_id','in',product_reserved.ids)])
+            product_reserved = self.env['stock.picking'].search([('state','in',['assigned']),('picking_type_code','=','outgoing')])
+            product_reserved_lines = self.env['stock.move'].search([('product_id','=',product.id),('picking_id','in',product_reserved.ids)])
 
         for x in product_reserved_lines:
             for y in x.tiempo_entrega_tabla:

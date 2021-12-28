@@ -42,12 +42,13 @@ class ProductTemplate(models.Model):
         id_stock_cdmx = self.env['stock.location'].search([('name','=','CDMX')],limit=1)
         id_stock_mer = self.env['stock.location'].search([('name','=','MER')],limit=1)
 
-        product = self.env['product.product'].search([('product_tmpl_id','=',self.id)])
+        products = self.env['product.product'].search([('product_tmpl_id','=',self.id)])
+        for product in products:
         _logger.info('###########')
         _logger.info(product)
 
-        product_sq_gdl = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',id_stock_gdl.id)])
-        for sq_gdl in product_sq_gdl:
+        #for sq_gdl in product_sq_gdl:
+            sq_gdl = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',id_stock_gdl.id)])
             if sq_gdl:
                 self.stock_gdl += sq_gdl.quantity
 
@@ -60,31 +61,31 @@ class ProductTemplate(models.Model):
                     if sq_gdl:
                         self.stock_gdl += sq_gdl.quantity
 
-        product_sq_cdmx = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',id_stock_cdmx.id)])
-        if product_sq_cdmx:
-            self.stock_cdmx += product_sq_cdmx.quantity
-
-        for x in id_stock_cdmx.child_ids:
-            product_sq_cdmx = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',x.id)])
+            product_sq_cdmx = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',id_stock_cdmx.id)])
             if product_sq_cdmx:
                 self.stock_cdmx += product_sq_cdmx.quantity
-            for y in x.child_ids:
-                product_sq_cdmx = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',y.id)])
+
+            for x in id_stock_cdmx.child_ids:
+                product_sq_cdmx = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',x.id)])
                 if product_sq_cdmx:
                     self.stock_cdmx += product_sq_cdmx.quantity
+                for y in x.child_ids:
+                    product_sq_cdmx = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',y.id)])
+                    if product_sq_cdmx:
+                        self.stock_cdmx += product_sq_cdmx.quantity
 
-        product_sq_mer = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',id_stock_mer.id)])
-        if product_sq_mer:
-            self.stock_mer += product_sq_mer.quantity
-
-        for x in id_stock_mer.child_ids:
-            product_sq_mer = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',x.id)])
+            product_sq_mer = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',id_stock_mer.id)])
             if product_sq_mer:
                 self.stock_mer += product_sq_mer.quantity
-            for y in x.child_ids:
-                product_sq_mer = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',y.id)])
+
+            for x in id_stock_mer.child_ids:
+                product_sq_mer = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',x.id)])
                 if product_sq_mer:
                     self.stock_mer += product_sq_mer.quantity
+                for y in x.child_ids:
+                    product_sq_mer = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',y.id)])
+                    if product_sq_mer:
+                        self.stock_mer += product_sq_mer.quantity
 
         product_reserved = self.env['stock.picking'].search([('state','in',['assigned']),('picking_type_code','=','outgoing')])
         product_reserved_lines = self.env['stock.move'].search([('product_id','=',product.id),('picking_id','in',product_reserved.ids)])

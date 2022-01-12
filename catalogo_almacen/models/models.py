@@ -87,14 +87,14 @@ class ProductTemplate(models.Model):
             product_reserved = self.env['stock.picking'].search([('state','in',['assigned']),('picking_type_code','=','outgoing')])
             product_reserved_lines = self.env['stock.move'].search([('product_id','=',product.id),('picking_id','in',product_reserved.ids)])
 
-        for x in product_reserved_lines:
-            for y in x.tiempo_entrega_tabla:
-                if y.cedis_selection == 'occidente':
-                    self.stock_gdl -= x.reserved_availability
-                if y.cedis_selection == 'centro':
-                    self.stock_cdmx -= x.reserved_availability
-                if y.cedis_selection == 'sur':
-                    self.stock_mer -= x.reserved_availability
+            for x in product_reserved_lines:
+                for y in x.tiempo_entrega_tabla:
+                    if y.cedis_selection == 'occidente':
+                        self.stock_gdl -= x.reserved_availability
+                    if y.cedis_selection == 'centro':
+                        self.stock_cdmx -= x.reserved_availability
+                    if y.cedis_selection == 'sur':
+                        self.stock_mer -= x.reserved_availability
 
         if self.stock_gdl < 0:
             self.stock_gdl = 0

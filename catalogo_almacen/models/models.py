@@ -96,44 +96,44 @@ class ProductTemplate(models.Model):
                     if y.cedis_selection == 'sur':
                         self.stock_mer -= x.reserved_availability
 
-        if self.stock_gdl < 0:
-            self.stock_gdl = 0
-        if self.stock_cdmx < 0:
-            self.stock_cdmx = 0
-        if self.stock_mer < 0:
-            self.stock_mer = 0
+            if self.stock_gdl < 0:
+                self.stock_gdl = 0
+            if self.stock_cdmx < 0:
+                self.stock_cdmx = 0
+            if self.stock_mer < 0:
+                self.stock_mer = 0
 
-        product_purchase= self.env['stock.picking'].search([('state','in',['confirmed','assigned']),('picking_type_code','=','incoming')])
-        product_purchase_lines = self.env['stock.move'].search([('product_id','=',product.id),('picking_id','in',product_purchase.ids)])
+            product_purchase= self.env['stock.picking'].search([('state','in',['confirmed','assigned']),('picking_type_code','=','incoming')])
+            product_purchase_lines = self.env['stock.move'].search([('product_id','=',product.id),('picking_id','in',product_purchase.ids)])
 
-        for x in product_purchase_lines:
-            if x.picking_id.location_dest_id.location_id.name == 'GDL':
-                self.et_co += x.product_uom_qty
-            if x.picking_id.location_dest_id.location_id.name == 'CDMX':
-                self.et_cc += x.product_uom_qty
-            if x.picking_id.location_dest_id.location_id.name == 'MER':
-                self.et_cs += x.product_uom_qty
+            for x in product_purchase_lines:
+                if x.picking_id.location_dest_id.location_id.name == 'GDL':
+                    self.et_co += x.product_uom_qty
+                if x.picking_id.location_dest_id.location_id.name == 'CDMX':
+                    self.et_cc += x.product_uom_qty
+                if x.picking_id.location_dest_id.location_id.name == 'MER':
+                    self.et_cs += x.product_uom_qty
 
-        product_sale= self.env['stock.picking'].search([('state','in',['confirmed','assigned']),('picking_type_code','=','outgoing')])
-        product_sale_lines = self.env['stock.move'].search([('product_id','=',product.id),('picking_id','in',product_sale.ids)])
+            product_sale= self.env['stock.picking'].search([('state','in',['confirmed','assigned']),('picking_type_code','=','outgoing')])
+            product_sale_lines = self.env['stock.move'].search([('product_id','=',product.id),('picking_id','in',product_sale.ids)])
 
-        for x in product_sale_lines:
-            for y in x.tiempo_entrega_tabla:
-                if y.cedis_selection == 'occidente':
-                    self.et_co -= (x.product_uom_qty - x.reserved_availability)
-            for y in x.tiempo_entrega_tabla:
-                if y.cedis_selection == 'centro':
-                    self.et_cc -= (x.product_uom_qty - x.reserved_availability)
-            for y in x.tiempo_entrega_tabla:
-                if y.cedis_selection == 'sur':
-                    self.et_cs -= (x.product_uom_qty - x.reserved_availability)
+            for x in product_sale_lines:
+                for y in x.tiempo_entrega_tabla:
+                    if y.cedis_selection == 'occidente':
+                        self.et_co -= (x.product_uom_qty - x.reserved_availability)
+                for y in x.tiempo_entrega_tabla:
+                    if y.cedis_selection == 'centro':
+                        self.et_cc -= (x.product_uom_qty - x.reserved_availability)
+                for y in x.tiempo_entrega_tabla:
+                    if y.cedis_selection == 'sur':
+                        self.et_cs -= (x.product_uom_qty - x.reserved_availability)
 
-        if self.et_co < 0:
-            self.et_co = 0
-        if self.et_cc < 0:
-            self.et_cc = 0
-        if self.et_cs < 0:
-            self.et_cs = 0
+            if self.et_co < 0:
+                self.et_co = 0
+            if self.et_cc < 0:
+                self.et_cc = 0
+            if self.et_cs < 0:
+                self.et_cs = 0
 
         # id_stock_gdl = self.env['stock.location'].search([('name','=','GDL')],limit=1)
         # product = self.env['product.product'].search([('product_tmpl_id','=',self.id)])

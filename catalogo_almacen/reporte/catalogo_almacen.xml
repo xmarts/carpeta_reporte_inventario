@@ -23,7 +23,7 @@
                                     <t t-if="o.stock_gdl or o.et_co or o.stock_cdmx or o.et_cc or o.stock_mer or o.et_cs">
                                         <tr>
                                             <td>
-                                                <img t-attf-src="data:image/*;base64,{{o.image_small}}"/>
+                                                <img t-attf-src="data:image/*;base64,{{o.image_128}}"/>
                                             </td>
                                             <td>
                                                 <span t-field="o.default_code"/>

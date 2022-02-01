@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Cátalogo de almacen 15",
+    'name': "Cátalogo de almacen",
 
     'summary': """
         Generate an inventory report, print only those products that exist in some of the registered stores""",

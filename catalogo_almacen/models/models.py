@@ -39,7 +39,6 @@ class ProductTemplate(models.Model):
 
             products = self.env['product.product'].search([('product_tmpl_id','=',rec.id)])
             for product in products:
-                print("Linea ----- ", product.id)
                 sq_gdl = self.env['stock.quant'].search([('product_id','=',product.id),('location_id','=',id_stock_gdl.id)])
                 if sq_gdl:
                     rec.stock_gdl += sq_gdl.quantity
